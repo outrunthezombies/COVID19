@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace COVID19
 {
@@ -161,6 +162,23 @@ namespace COVID19
                 totalDeaths += (int)DgvCountryRecords.Rows[index].Cells[2].Value;
                 DgvCountryRecords.Rows[index].Cells[4].Value = totalDeaths;
             }
+            ChartData();
+        }
+
+        private void ChartData()
+        {
+            DataPoint dp;
+            ChtChart.Series.Clear();
+            ChtChart.Series.Add("Series 1");
+            ChtChart.Series["Series 1"].ChartType = SeriesChartType.Line;
+
+            for (int index = 0; index < DgvCountryRecords.Rows.Count - 1; index++)
+            {
+                dp = new DataPoint();
+                dp.SetValueXY(DgvCountryRecords.Rows[index].Cells[0].Value, DgvCountryRecords.Rows[index].Cells[3].Value);
+                ChtChart.Series[0].Points.Add(dp);
+                ChtChart.ChartAreas[0].AxisX.IsReversed = true;
+        }
         }
     }
 }

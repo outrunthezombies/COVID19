@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.BtnLoad = new System.Windows.Forms.Button();
             this.ClbCountries = new System.Windows.Forms.CheckedListBox();
             this.CboCountries = new System.Windows.Forms.ComboBox();
             this.DgvCountryRecords = new System.Windows.Forms.DataGridView();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DailyCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DailyDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LblCountryLabel = new System.Windows.Forms.Label();
             this.LblCountryName = new System.Windows.Forms.Label();
             this.LblPopulation = new System.Windows.Forms.Label();
@@ -40,12 +48,9 @@
             this.LblTotalCasesLabel = new System.Windows.Forms.Label();
             this.LblTotalDeaths = new System.Windows.Forms.Label();
             this.LblTotalDeathsLabel = new System.Windows.Forms.Label();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DailyCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DailyDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ChtChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChtChart)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnLoad
@@ -89,6 +94,36 @@
             this.DgvCountryRecords.Name = "DgvCountryRecords";
             this.DgvCountryRecords.Size = new System.Drawing.Size(680, 326);
             this.DgvCountryRecords.TabIndex = 8;
+            // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            // 
+            // DailyCases
+            // 
+            this.DailyCases.HeaderText = "Daily Cases";
+            this.DailyCases.Name = "DailyCases";
+            this.DailyCases.ReadOnly = true;
+            // 
+            // DailyDeaths
+            // 
+            this.DailyDeaths.HeaderText = "Daily Deaths";
+            this.DailyDeaths.Name = "DailyDeaths";
+            this.DailyDeaths.ReadOnly = true;
+            // 
+            // TotalCases
+            // 
+            this.TotalCases.HeaderText = "Total Cases";
+            this.TotalCases.Name = "TotalCases";
+            this.TotalCases.ReadOnly = true;
+            // 
+            // TotalDeaths
+            // 
+            this.TotalDeaths.HeaderText = "Total Deaths";
+            this.TotalDeaths.Name = "TotalDeaths";
+            this.TotalDeaths.ReadOnly = true;
             // 
             // LblCountryLabel
             // 
@@ -158,41 +193,29 @@
             this.LblTotalDeathsLabel.TabIndex = 17;
             this.LblTotalDeathsLabel.Text = "Total Deaths:";
             // 
-            // Date
+            // ChtChart
             // 
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
-            // 
-            // DailyCases
-            // 
-            this.DailyCases.HeaderText = "Daily Cases";
-            this.DailyCases.Name = "DailyCases";
-            this.DailyCases.ReadOnly = true;
-            // 
-            // DailyDeaths
-            // 
-            this.DailyDeaths.HeaderText = "Daily Deaths";
-            this.DailyDeaths.Name = "DailyDeaths";
-            this.DailyDeaths.ReadOnly = true;
-            // 
-            // TotalCases
-            // 
-            this.TotalCases.HeaderText = "Total Cases";
-            this.TotalCases.Name = "TotalCases";
-            this.TotalCases.ReadOnly = true;
-            // 
-            // TotalDeaths
-            // 
-            this.TotalDeaths.HeaderText = "Total Deaths";
-            this.TotalDeaths.Name = "TotalDeaths";
-            this.TotalDeaths.ReadOnly = true;
+            chartArea1.Name = "ChartArea1";
+            this.ChtChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.ChtChart.Legends.Add(legend1);
+            this.ChtChart.Location = new System.Drawing.Point(93, 440);
+            this.ChtChart.Name = "ChtChart";
+            this.ChtChart.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.ChtChart.Series.Add(series1);
+            this.ChtChart.Size = new System.Drawing.Size(900, 285);
+            this.ChtChart.TabIndex = 19;
             // 
             // FormCOVID
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1005, 737);
+            this.Controls.Add(this.ChtChart);
             this.Controls.Add(this.LblTotalDeaths);
             this.Controls.Add(this.LblTotalDeathsLabel);
             this.Controls.Add(this.LblTotalCases);
@@ -208,6 +231,7 @@
             this.Name = "FormCOVID";
             this.Text = "COVID19 Analysis";
             ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ChtChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,6 +255,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DailyDeaths;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalCases;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalDeaths;
+        private System.Windows.Forms.DataVisualization.Charting.Chart ChtChart;
     }
 }
 
