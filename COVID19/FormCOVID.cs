@@ -13,9 +13,12 @@ namespace COVID19
         {
             InitializeComponent();
         }
-        private string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
+        private readonly string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
         private string CovidJSONRawData = "";
+        private List<CountryRecord> countryRecords = new List<CountryRecord>();
         private List<Country> countries = new List<Country>();
+        private readonly char underscore = '_';
+        private readonly char space = ' ';
         private void LoadJSON ()
         {
             this.Cursor = Cursors.WaitCursor;
@@ -37,16 +40,17 @@ namespace COVID19
                 switch (item.Name)
                 {
                     case "records":
-                        CountryRecord newRecord = new CountryRecord();
                         List<JToken> issues = item.Children().Children().ToList();
                         foreach (JObject issue in issues)
                         {
+                            CountryRecord newRecord = new CountryRecord();
                             issue.CreateReader();
                             List<JToken> values = issue.Children().ToList();
 
                             string countryName = "";
                             string geoId = "";
                             long population = -1;
+                            
                             foreach (JProperty value in values)
                             {
                                 value.CreateReader();
@@ -96,13 +100,14 @@ namespace COVID19
                                 tempCountry = new Country
                                 {
                                     CountryCode = newRecord.CountryCode,
-                                    Name = countryName,
+                                    Name = countryName.Replace(underscore, space),
                                     GeoID = geoId,
                                     Population = population
                                 };
                                 tempCountry.CountryRecords.Add(newRecord);
                                 countries.Add(tempCountry);
                             }
+                            countryRecords.Add(newRecord);
                         }
                         break;
                 }
@@ -113,24 +118,49 @@ namespace COVID19
         {
             LoadJSON();
             ParseJSONIntoObjects();
-            this.Text = countries.Count + " Countries";
             ClbCountries.Items.Clear();
             CboCountries.Items.Clear();
             ClbCountries.Items.Add("All Countries");
-            for (int index = 0; index < countries.Count - 1; index++)
+            foreach (Country record in countries)
             {
-                ClbCountries.Items.Add(countries[index].Name);
-                CboCountries.Items.Add(countries[index].Name);
+                ClbCountries.Items.Add(record.Name);
+                CboCountries.Items.Add(record.Name);
             }
         }
 
         private void CboCountries_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Country country = countries[CboCountries.SelectedIndex];
-            TxtCountryName.Text = country.Name;
-            TxtCountryCode.Text = country.CountryCode;
-            TxtGeoID.Text = country.GeoID;
-            TxtPopulation.Text = country.Population.ToString();
+            int totalCases = 0;
+            int totalDeaths = 0;
+
+            foreach (Country country in countries)
+            {
+                if (country.Name.Equals(CboCountries.SelectedItem.ToString()))
+                {
+                    LblCountryName.Text = country.Name + ", " + country.CountryCode + ", " + country.GeoID;
+                    LblPopulation.Text = string.Format("{0:#,##0}", double.Parse(country.Population.ToString()));
+                    LblTotalCases.Text = string.Format("{0:#,##0}", double.Parse(country.TotalCases().ToString()));
+                    LblTotalDeaths.Text = string.Format("{0:#,##0}", double.Parse(country.TotalDeaths().ToString()));
+                    DgvCountryRecords.Rows.Clear();
+                    foreach (CountryRecord record in country.CountryRecords)
+                    {
+                        DataGridViewRow dgvr = (DataGridViewRow)DgvCountryRecords.Rows[0].Clone();
+                        dgvr.Cells[0].Value = record.Year + "/" + record.Month + "/" + record.Day;
+                        dgvr.Cells[1].Value = record.Cases;
+                        dgvr.Cells[2].Value = record.Deaths;
+                        dgvr.Cells[3].Value = "";
+                        dgvr.Cells[4].Value = "";
+                        DgvCountryRecords.Rows.Add(dgvr);
+                    }
+                }
+            }
+            for (int index = DgvCountryRecords.Rows.Count-2; index >= 0 ; index--)
+            {
+                totalCases += (int)DgvCountryRecords.Rows[index].Cells[1].Value;
+                DgvCountryRecords.Rows[index].Cells[3].Value = totalCases;
+                totalDeaths += (int)DgvCountryRecords.Rows[index].Cells[2].Value;
+                DgvCountryRecords.Rows[index].Cells[4].Value = totalDeaths;
+            }
         }
     }
 }

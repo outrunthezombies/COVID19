@@ -9,16 +9,16 @@ namespace COVID19
     class CountryRecord
     {
         /*
-            dateRep	"03/04/2020"
-            day	"3"
-            month	"4"
-            year	"2020"
-            cases	"43"
-            deaths	"0"
-            countriesAndTerritories	"Afghanistan"
-            geoId	"AF"
-            countryterritoryCode	"AFG"
-            popData2018	"37172386"
+            dateRep	"03/04/2020"                    --> Date
+            day	"3"                                 --> Day
+            month	"4"                             --> Month
+            year	"2020"                          --> Year
+            cases	"43"                            --> Cases
+            deaths	"0"                             --> Deaths
+            countriesAndTerritories	"Afghanistan"   --> CountryName
+            geoId	"AF"                            --> GeoID
+            countryterritoryCode	"AFG"           --> CountryCode
+            popData2018	"37172386"                  --> CountryPopulation
         */
         private string countryCode;
         public string CountryCode
@@ -26,9 +26,9 @@ namespace COVID19
             get => countryCode;
             set => countryCode = value;
         }
-        public DateTime DateRep
+        public string Date
         {
-            get => new DateTime(year, month, day);
+            get => year + "/" + month + "/" + day;
         }
         private int day, month, year;
         public int Day

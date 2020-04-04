@@ -30,18 +30,22 @@
         {
             this.BtnLoad = new System.Windows.Forms.Button();
             this.ClbCountries = new System.Windows.Forms.CheckedListBox();
-            this.TxtCountryName = new System.Windows.Forms.TextBox();
             this.CboCountries = new System.Windows.Forms.ComboBox();
-            this.TxtCountryCode = new System.Windows.Forms.TextBox();
-            this.TxtGeoID = new System.Windows.Forms.TextBox();
-            this.TxtPopulation = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DgvCountryRecords = new System.Windows.Forms.DataGridView();
+            this.LblCountryLabel = new System.Windows.Forms.Label();
+            this.LblCountryName = new System.Windows.Forms.Label();
+            this.LblPopulation = new System.Windows.Forms.Label();
+            this.LblPopulationLabel = new System.Windows.Forms.Label();
+            this.LblTotalCases = new System.Windows.Forms.Label();
+            this.LblTotalCasesLabel = new System.Windows.Forms.Label();
+            this.LblTotalDeaths = new System.Windows.Forms.Label();
+            this.LblTotalDeathsLabel = new System.Windows.Forms.Label();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DailyCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DailyDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnLoad
@@ -59,15 +63,8 @@
             this.ClbCountries.FormattingEnabled = true;
             this.ClbCountries.Location = new System.Drawing.Point(93, 55);
             this.ClbCountries.Name = "ClbCountries";
-            this.ClbCountries.Size = new System.Drawing.Size(214, 304);
+            this.ClbCountries.Size = new System.Drawing.Size(214, 379);
             this.ClbCountries.TabIndex = 2;
-            // 
-            // TxtCountryName
-            // 
-            this.TxtCountryName.Location = new System.Drawing.Point(354, 54);
-            this.TxtCountryName.Name = "TxtCountryName";
-            this.TxtCountryName.Size = new System.Drawing.Size(138, 20);
-            this.TxtCountryName.TabIndex = 3;
             // 
             // CboCountries
             // 
@@ -79,40 +76,87 @@
             this.CboCountries.TabIndex = 4;
             this.CboCountries.SelectedIndexChanged += new System.EventHandler(this.CboCountries_SelectedIndexChanged);
             // 
-            // TxtCountryCode
+            // DgvCountryRecords
             // 
-            this.TxtCountryCode.Location = new System.Drawing.Point(499, 54);
-            this.TxtCountryCode.Name = "TxtCountryCode";
-            this.TxtCountryCode.Size = new System.Drawing.Size(138, 20);
-            this.TxtCountryCode.TabIndex = 5;
-            // 
-            // TxtGeoID
-            // 
-            this.TxtGeoID.Location = new System.Drawing.Point(643, 54);
-            this.TxtGeoID.Name = "TxtGeoID";
-            this.TxtGeoID.Size = new System.Drawing.Size(138, 20);
-            this.TxtGeoID.TabIndex = 6;
-            // 
-            // TxtPopulation
-            // 
-            this.TxtPopulation.Location = new System.Drawing.Point(787, 54);
-            this.TxtPopulation.Name = "TxtPopulation";
-            this.TxtPopulation.Size = new System.Drawing.Size(138, 20);
-            this.TxtPopulation.TabIndex = 7;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DgvCountryRecords.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvCountryRecords.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Date,
             this.DailyCases,
             this.DailyDeaths,
             this.TotalCases,
             this.TotalDeaths});
-            this.dataGridView1.Location = new System.Drawing.Point(354, 80);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(547, 229);
-            this.dataGridView1.TabIndex = 8;
+            this.DgvCountryRecords.Location = new System.Drawing.Point(313, 108);
+            this.DgvCountryRecords.Name = "DgvCountryRecords";
+            this.DgvCountryRecords.Size = new System.Drawing.Size(680, 326);
+            this.DgvCountryRecords.TabIndex = 8;
+            // 
+            // LblCountryLabel
+            // 
+            this.LblCountryLabel.AutoSize = true;
+            this.LblCountryLabel.Location = new System.Drawing.Point(354, 35);
+            this.LblCountryLabel.Name = "LblCountryLabel";
+            this.LblCountryLabel.Size = new System.Drawing.Size(46, 13);
+            this.LblCountryLabel.TabIndex = 9;
+            this.LblCountryLabel.Text = "Country:";
+            // 
+            // LblCountryName
+            // 
+            this.LblCountryName.AutoSize = true;
+            this.LblCountryName.Location = new System.Drawing.Point(406, 35);
+            this.LblCountryName.Name = "LblCountryName";
+            this.LblCountryName.Size = new System.Drawing.Size(0, 13);
+            this.LblCountryName.TabIndex = 10;
+            // 
+            // LblPopulation
+            // 
+            this.LblPopulation.AutoSize = true;
+            this.LblPopulation.Location = new System.Drawing.Point(707, 35);
+            this.LblPopulation.Name = "LblPopulation";
+            this.LblPopulation.Size = new System.Drawing.Size(0, 13);
+            this.LblPopulation.TabIndex = 14;
+            // 
+            // LblPopulationLabel
+            // 
+            this.LblPopulationLabel.AutoSize = true;
+            this.LblPopulationLabel.Location = new System.Drawing.Point(649, 35);
+            this.LblPopulationLabel.Name = "LblPopulationLabel";
+            this.LblPopulationLabel.Size = new System.Drawing.Size(60, 13);
+            this.LblPopulationLabel.TabIndex = 13;
+            this.LblPopulationLabel.Text = "Population:";
+            // 
+            // LblTotalCases
+            // 
+            this.LblTotalCases.AutoSize = true;
+            this.LblTotalCases.Location = new System.Drawing.Point(707, 55);
+            this.LblTotalCases.Name = "LblTotalCases";
+            this.LblTotalCases.Size = new System.Drawing.Size(0, 13);
+            this.LblTotalCases.TabIndex = 16;
+            // 
+            // LblTotalCasesLabel
+            // 
+            this.LblTotalCasesLabel.AutoSize = true;
+            this.LblTotalCasesLabel.Location = new System.Drawing.Point(643, 55);
+            this.LblTotalCasesLabel.Name = "LblTotalCasesLabel";
+            this.LblTotalCasesLabel.Size = new System.Drawing.Size(66, 13);
+            this.LblTotalCasesLabel.TabIndex = 15;
+            this.LblTotalCasesLabel.Text = "Total Cases:";
+            // 
+            // LblTotalDeaths
+            // 
+            this.LblTotalDeaths.AutoSize = true;
+            this.LblTotalDeaths.Location = new System.Drawing.Point(708, 77);
+            this.LblTotalDeaths.Name = "LblTotalDeaths";
+            this.LblTotalDeaths.Size = new System.Drawing.Size(0, 13);
+            this.LblTotalDeaths.TabIndex = 18;
+            // 
+            // LblTotalDeathsLabel
+            // 
+            this.LblTotalDeathsLabel.AutoSize = true;
+            this.LblTotalDeathsLabel.Location = new System.Drawing.Point(640, 77);
+            this.LblTotalDeathsLabel.Name = "LblTotalDeathsLabel";
+            this.LblTotalDeathsLabel.Size = new System.Drawing.Size(71, 13);
+            this.LblTotalDeathsLabel.TabIndex = 17;
+            this.LblTotalDeathsLabel.Text = "Total Deaths:";
             // 
             // Date
             // 
@@ -148,18 +192,22 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1005, 450);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.TxtPopulation);
-            this.Controls.Add(this.TxtGeoID);
-            this.Controls.Add(this.TxtCountryCode);
+            this.ClientSize = new System.Drawing.Size(1005, 737);
+            this.Controls.Add(this.LblTotalDeaths);
+            this.Controls.Add(this.LblTotalDeathsLabel);
+            this.Controls.Add(this.LblTotalCases);
+            this.Controls.Add(this.LblTotalCasesLabel);
+            this.Controls.Add(this.LblPopulation);
+            this.Controls.Add(this.LblPopulationLabel);
+            this.Controls.Add(this.LblCountryName);
+            this.Controls.Add(this.LblCountryLabel);
+            this.Controls.Add(this.DgvCountryRecords);
             this.Controls.Add(this.CboCountries);
-            this.Controls.Add(this.TxtCountryName);
             this.Controls.Add(this.ClbCountries);
             this.Controls.Add(this.BtnLoad);
             this.Name = "FormCOVID";
             this.Text = "COVID19 Analysis";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,12 +216,16 @@
         #endregion
         private System.Windows.Forms.Button BtnLoad;
         private System.Windows.Forms.CheckedListBox ClbCountries;
-        private System.Windows.Forms.TextBox TxtCountryName;
         private System.Windows.Forms.ComboBox CboCountries;
-        private System.Windows.Forms.TextBox TxtCountryCode;
-        private System.Windows.Forms.TextBox TxtGeoID;
-        private System.Windows.Forms.TextBox TxtPopulation;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView DgvCountryRecords;
+        private System.Windows.Forms.Label LblCountryLabel;
+        private System.Windows.Forms.Label LblCountryName;
+        private System.Windows.Forms.Label LblPopulation;
+        private System.Windows.Forms.Label LblPopulationLabel;
+        private System.Windows.Forms.Label LblTotalCases;
+        private System.Windows.Forms.Label LblTotalCasesLabel;
+        private System.Windows.Forms.Label LblTotalDeaths;
+        private System.Windows.Forms.Label LblTotalDeathsLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn DailyCases;
         private System.Windows.Forms.DataGridViewTextBoxColumn DailyDeaths;

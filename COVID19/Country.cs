@@ -36,5 +36,23 @@ namespace COVID19
             get => countryRecords;
             set => countryRecords = value;
         }
+        public int TotalCases()
+        {
+            int totalCases = 0;
+            foreach (CountryRecord record in CountryRecords)
+            {
+                totalCases += record.Cases;
+            }
+            return totalCases;
+        }
+        public int TotalDeaths()
+        {
+            int totalDeaths = 0;
+            foreach (CountryRecord record in CountryRecords)
+            {
+                totalDeaths += record.Deaths;
+            }
+            return totalDeaths;
+        }
     }
 }
