@@ -15,12 +15,7 @@ namespace COVID19
         }
         private string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
         private string CovidJSONRawData = "";
-        private List<Record> countryRecords = new List<Record>();
-
-        private void FormCOVID_Load(object sender, EventArgs e)
-        {
-
-        }
+        private List<Country> countries = new List<Country>();
         private void LoadJSON ()
         {
             this.Cursor = Cursors.WaitCursor;
@@ -32,6 +27,7 @@ namespace COVID19
         }
         private void ParseJSONIntoObjects()
         {
+            this.Cursor = Cursors.WaitCursor;
             JObject json = JObject.Parse(CovidJSONRawData);
             List<JToken> data = json.Children().ToList();
 
@@ -41,18 +37,24 @@ namespace COVID19
                 switch (item.Name)
                 {
                     case "records":
-                        Record newRecord = new Record();
+                        CountryRecord newRecord = new CountryRecord();
                         List<JToken> issues = item.Children().Children().ToList();
                         foreach (JObject issue in issues)
                         {
                             issue.CreateReader();
                             List<JToken> values = issue.Children().ToList();
 
+                            string countryName = "";
+                            string geoId = "";
+                            long population = -1;
                             foreach (JProperty value in values)
                             {
                                 value.CreateReader();
                                 switch (value.Name)
                                 {
+                                    case "countryterritoryCode":
+                                        newRecord.CountryCode = value.Value.ToString();
+                                        break;
                                     case "day":
                                         newRecord.Day = (int)value.Value;
                                         break;
@@ -69,42 +71,66 @@ namespace COVID19
                                         newRecord.Deaths = (int)value.Value;
                                         break;
                                     case "countriesAndTerritories":
-                                        newRecord.Country = value.Value.ToString();
+                                        countryName = value.Value.ToString();
                                         break;
                                     case "geoId":
-                                        newRecord.GeoID = value.Value.ToString();
-                                        break;
-                                    case "countryterritoryCode":
-                                        newRecord.CountryCode = value.Value.ToString();
+                                        geoId = value.Value.ToString();
                                         break;
                                     case "popData2018":
-                                        if (value.Value.ToString() == "")
-                                        {
-                                            newRecord.Population = -1;
-                                        }
-                                        else
-                                        {
-                                            newRecord.Population = (long)value.Value;
-                                        }
+                                        if (value.Value.ToString() != "")
+                                            population = (long)value.Value;
                                         break;
                                 }
-                                countryRecords.Add(newRecord);
+                            }
+                            Country tempCountry;
+
+                            int index = countries.FindIndex(x => x.CountryCode == newRecord.CountryCode);
+
+                            if (index >= 0)
+                            {
+                                tempCountry = countries.ElementAt(index);
+                                tempCountry.CountryRecords.Add(newRecord);
+                            }
+                            else
+                            {
+                                tempCountry = new Country
+                                {
+                                    CountryCode = newRecord.CountryCode,
+                                    Name = countryName,
+                                    GeoID = geoId,
+                                    Population = population
+                                };
+                                tempCountry.CountryRecords.Add(newRecord);
+                                countries.Add(tempCountry);
                             }
                         }
                         break;
                 }
             }
+            this.Cursor = Cursors.Default;
         }
-
-        private void BtnParse_Click(object sender, EventArgs e)
-        {
-            ParseJSONIntoObjects();
-            this.Text = countryRecords.Count + " Records";
-        }
-
         private void BtnLoad_Click(object sender, EventArgs e)
         {
             LoadJSON();
+            ParseJSONIntoObjects();
+            this.Text = countries.Count + " Countries";
+            ClbCountries.Items.Clear();
+            CboCountries.Items.Clear();
+            ClbCountries.Items.Add("All Countries");
+            for (int index = 0; index < countries.Count - 1; index++)
+            {
+                ClbCountries.Items.Add(countries[index].Name);
+                CboCountries.Items.Add(countries[index].Name);
+            }
+        }
+
+        private void CboCountries_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Country country = countries[CboCountries.SelectedIndex];
+            TxtCountryName.Text = country.Name;
+            TxtCountryCode.Text = country.CountryCode;
+            TxtGeoID.Text = country.GeoID;
+            TxtPopulation.Text = country.Population.ToString();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace COVID19
 {
-    class Record
+    class CountryRecord
     {
         /*
             dateRep	"03/04/2020"
@@ -20,6 +20,12 @@ namespace COVID19
             countryterritoryCode	"AFG"
             popData2018	"37172386"
         */
+        private string countryCode;
+        public string CountryCode
+        {
+            get => countryCode;
+            set => countryCode = value;
+        }
         public DateTime DateRep
         {
             get => new DateTime(year, month, day);
@@ -50,28 +56,6 @@ namespace COVID19
         {
             get => deaths;
             set => deaths = value;
-        }
-        private string country, geoId, countryCode;
-        public string Country
-        {
-            get => country;
-            set => country = value;
-        }
-        public string GeoID
-        {
-            get => geoId;
-            set => geoId = value;
-        }
-        public string CountryCode
-        {
-            get => countryCode;
-            set => countryCode = value;
-        }
-        private long population;
-        public long Population
-        {
-            get => population;
-            set => population = value;
         }
     }
 }
