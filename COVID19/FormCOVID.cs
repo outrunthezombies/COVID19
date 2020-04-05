@@ -13,7 +13,7 @@ namespace COVID19
         public FormCOVID()
         {
             InitializeComponent();
-            CboChartType.SelectedIndex = 3;
+            CboChartType.SelectedIndex = 0;
         }
         private readonly string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
         private string CovidJSONRawData = "";
@@ -21,6 +21,7 @@ namespace COVID19
         private List<Country> countries = new List<Country>();
         private readonly char underscore = '_';
         private readonly char space = ' ';
+        private int[] ChartType = { 0, 3, 10};
         private void LoadJSON ()
         {
             this.Cursor = Cursors.WaitCursor;
@@ -164,7 +165,7 @@ namespace COVID19
             else
             {
                 ChtChart.Series.Add(countries[countryIndex].Name);
-                ChtChart.Series[countries[countryIndex].Name].ChartType = (SeriesChartType)CboChartType.SelectedIndex;
+                ChtChart.Series[countries[countryIndex].Name].ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
                 int totalCases = 0;
                 for (int index = countries[countryIndex].CountryRecords.Count - 1; index >= 0; index--)
                 {
@@ -215,7 +216,7 @@ namespace COVID19
         {
             foreach (Series series in ChtChart.Series)
             {
-                series.ChartType = (SeriesChartType)CboChartType.SelectedIndex;
+                series.ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
             }
         }
     }
