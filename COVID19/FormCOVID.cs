@@ -115,45 +115,24 @@ namespace COVID19
             }
             this.Cursor = Cursors.Default;
         }
-        private void BtnLoad_Click(object sender, EventArgs e)
-        {
-            LoadJSON();
-            ParseJSONIntoObjects();
-            ClbCountries.Items.Clear();
-            CboCountries.Items.Clear();
-            ClbCountries.Items.Add("All Countries");
-            foreach (Country record in countries)
-            {
-                ClbCountries.Items.Add(record.Name);
-                CboCountries.Items.Add(record.Name);
-            }
-        }
-
-        private void CboCountries_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void GetCountryData(int countryIndex)
+        { 
             int totalCases = 0;
             int totalDeaths = 0;
 
-            foreach (Country country in countries)
+            LblPopulation.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].Population.ToString()));
+            LblTotalCases.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].TotalCases().ToString()));
+            LblTotalDeaths.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].TotalDeaths().ToString()));
+            DgvCountryRecords.Rows.Clear();
+            foreach (CountryRecord record in countries[countryIndex].CountryRecords)
             {
-                if (country.Name.Equals(CboCountries.SelectedItem.ToString()))
-                {
-                    LblCountryName.Text = country.Name + ", " + country.CountryCode + ", " + country.GeoID;
-                    LblPopulation.Text = string.Format("{0:#,##0}", double.Parse(country.Population.ToString()));
-                    LblTotalCases.Text = string.Format("{0:#,##0}", double.Parse(country.TotalCases().ToString()));
-                    LblTotalDeaths.Text = string.Format("{0:#,##0}", double.Parse(country.TotalDeaths().ToString()));
-                    DgvCountryRecords.Rows.Clear();
-                    foreach (CountryRecord record in country.CountryRecords)
-                    {
-                        DataGridViewRow dgvr = (DataGridViewRow)DgvCountryRecords.Rows[0].Clone();
-                        dgvr.Cells[0].Value = record.Year + "/" + record.Month + "/" + record.Day;
-                        dgvr.Cells[1].Value = record.Cases;
-                        dgvr.Cells[2].Value = record.Deaths;
-                        dgvr.Cells[3].Value = "";
-                        dgvr.Cells[4].Value = "";
-                        DgvCountryRecords.Rows.Add(dgvr);
-                    }
-                }
+                DataGridViewRow dgvr = (DataGridViewRow)DgvCountryRecords.Rows[0].Clone();
+                dgvr.Cells[0].Value = record.Year + "/" + record.Month + "/" + record.Day;
+                dgvr.Cells[1].Value = record.Cases;
+                dgvr.Cells[2].Value = record.Deaths;
+                dgvr.Cells[3].Value = "";
+                dgvr.Cells[4].Value = "";
+                DgvCountryRecords.Rows.Add(dgvr);
             }
             for (int index = DgvCountryRecords.Rows.Count-2; index >= 0 ; index--)
             {
@@ -162,23 +141,74 @@ namespace COVID19
                 totalDeaths += (int)DgvCountryRecords.Rows[index].Cells[2].Value;
                 DgvCountryRecords.Rows[index].Cells[4].Value = totalDeaths;
             }
-            ChartData();
         }
-
-        private void ChartData()
+        private bool IsCountrySelected(int countryIndex)
+        {
+            bool isSelected = false;
+            foreach (Series series in ChtChart.Series)
+            {
+                if (series.Name == countries[countryIndex].Name)
+                    isSelected = true;
+            }
+            return isSelected;
+        }
+        private void AddRemoveChartSeries(int countryIndex)
         {
             DataPoint dp;
-            ChtChart.Series.Clear();
-            ChtChart.Series.Add("Series 1");
-            ChtChart.Series["Series 1"].ChartType = SeriesChartType.Line;
-
-            for (int index = 0; index < DgvCountryRecords.Rows.Count - 1; index++)
+            if (IsCountrySelected(countryIndex))
             {
-                dp = new DataPoint();
-                dp.SetValueXY(DgvCountryRecords.Rows[index].Cells[0].Value, DgvCountryRecords.Rows[index].Cells[3].Value);
-                ChtChart.Series[0].Points.Add(dp);
-                ChtChart.ChartAreas[0].AxisX.IsReversed = true;
+                ChtChart.Series.Remove(ChtChart.Series[countries[countryIndex].Name]);
+                ClbCountries.SetItemChecked(countryIndex, false);
+            }
+            else
+            {
+                ChtChart.Series.Add(countries[countryIndex].Name);
+                ChtChart.Series[countries[countryIndex].Name].ChartType = SeriesChartType.Line;
+                int totalCases = 0;
+                for (int index = countries[countryIndex].CountryRecords.Count - 1; index >= 0; index--)
+                {
+                    totalCases += countries[countryIndex].CountryRecords[index].Cases;
+                    dp = new DataPoint();
+                    dp.SetValueXY(countries[countryIndex].CountryRecords[index].Date, (double)totalCases / ((double)countries[countryIndex].Population / 1000000));
+                    ChtChart.Series[countries[countryIndex].Name].Points.Add(dp);
+                    ChtChart.ChartAreas[0].AxisX.IsReversed = false;
+                }
+                ClbCountries.SetItemChecked(countryIndex, true);
+            }
         }
+        private void FormCOVID_Load(object sender, EventArgs e)
+        {
+            this.Show();
+            this.Cursor = Cursors.WaitCursor;
+            LoadJSON();
+            ParseJSONIntoObjects();
+            ClbCountries.Items.Clear();
+            CboCountries.Items.Clear();
+            foreach (Country record in countries)
+            {
+                ClbCountries.Items.Add(record.Name);
+                CboCountries.Items.Add(record.Name);
+            }
+            this.Cursor = Cursors.Default;
+        }
+        private void BtnAddToChart_Click(object sender, EventArgs e)
+        {
+            if (CboCountries.SelectedIndex >= 0)
+            {
+                AddRemoveChartSeries(CboCountries.SelectedIndex);
+            }
+        }
+        private void BtnResetChart_Click(object sender, EventArgs e)
+        {
+            ChtChart.Series.Clear();
+        }
+        private void CboCountries_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetCountryData(CboCountries.SelectedIndex);
+        }
+        private void ClbCountries_ItemCheck(object sender, EventArgs e)
+        {
+            AddRemoveChartSeries(ClbCountries.SelectedIndex);
         }
     }
 }

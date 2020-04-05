@@ -30,8 +30,6 @@
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.BtnLoad = new System.Windows.Forms.Button();
             this.ClbCountries = new System.Windows.Forms.CheckedListBox();
             this.CboCountries = new System.Windows.Forms.ComboBox();
             this.DgvCountryRecords = new System.Windows.Forms.DataGridView();
@@ -40,8 +38,6 @@
             this.DailyDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LblCountryLabel = new System.Windows.Forms.Label();
-            this.LblCountryName = new System.Windows.Forms.Label();
             this.LblPopulation = new System.Windows.Forms.Label();
             this.LblPopulationLabel = new System.Windows.Forms.Label();
             this.LblTotalCases = new System.Windows.Forms.Label();
@@ -49,33 +45,27 @@
             this.LblTotalDeaths = new System.Windows.Forms.Label();
             this.LblTotalDeathsLabel = new System.Windows.Forms.Label();
             this.ChtChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.BtnAddToChart = new System.Windows.Forms.Button();
+            this.BtnResetChart = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChtChart)).BeginInit();
             this.SuspendLayout();
             // 
-            // BtnLoad
-            // 
-            this.BtnLoad.Location = new System.Drawing.Point(12, 25);
-            this.BtnLoad.Name = "BtnLoad";
-            this.BtnLoad.Size = new System.Drawing.Size(75, 23);
-            this.BtnLoad.TabIndex = 1;
-            this.BtnLoad.Text = "Load";
-            this.BtnLoad.UseVisualStyleBackColor = true;
-            this.BtnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
-            // 
             // ClbCountries
             // 
+            this.ClbCountries.CheckOnClick = true;
             this.ClbCountries.FormattingEnabled = true;
-            this.ClbCountries.Location = new System.Drawing.Point(93, 55);
+            this.ClbCountries.Location = new System.Drawing.Point(12, 5);
             this.ClbCountries.Name = "ClbCountries";
-            this.ClbCountries.Size = new System.Drawing.Size(214, 379);
+            this.ClbCountries.Size = new System.Drawing.Size(214, 244);
             this.ClbCountries.TabIndex = 2;
+            this.ClbCountries.SelectedIndexChanged += new System.EventHandler(this.ClbCountries_ItemCheck);
             // 
             // CboCountries
             // 
             this.CboCountries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CboCountries.FormattingEnabled = true;
-            this.CboCountries.Location = new System.Drawing.Point(93, 25);
+            this.CboCountries.Location = new System.Drawing.Point(232, 5);
             this.CboCountries.Name = "CboCountries";
             this.CboCountries.Size = new System.Drawing.Size(214, 21);
             this.CboCountries.TabIndex = 4;
@@ -90,9 +80,9 @@
             this.DailyDeaths,
             this.TotalCases,
             this.TotalDeaths});
-            this.DgvCountryRecords.Location = new System.Drawing.Point(313, 108);
+            this.DgvCountryRecords.Location = new System.Drawing.Point(232, 71);
             this.DgvCountryRecords.Name = "DgvCountryRecords";
-            this.DgvCountryRecords.Size = new System.Drawing.Size(680, 326);
+            this.DgvCountryRecords.Size = new System.Drawing.Size(761, 178);
             this.DgvCountryRecords.TabIndex = 8;
             // 
             // Date
@@ -125,27 +115,10 @@
             this.TotalDeaths.Name = "TotalDeaths";
             this.TotalDeaths.ReadOnly = true;
             // 
-            // LblCountryLabel
-            // 
-            this.LblCountryLabel.AutoSize = true;
-            this.LblCountryLabel.Location = new System.Drawing.Point(354, 35);
-            this.LblCountryLabel.Name = "LblCountryLabel";
-            this.LblCountryLabel.Size = new System.Drawing.Size(46, 13);
-            this.LblCountryLabel.TabIndex = 9;
-            this.LblCountryLabel.Text = "Country:";
-            // 
-            // LblCountryName
-            // 
-            this.LblCountryName.AutoSize = true;
-            this.LblCountryName.Location = new System.Drawing.Point(406, 35);
-            this.LblCountryName.Name = "LblCountryName";
-            this.LblCountryName.Size = new System.Drawing.Size(0, 13);
-            this.LblCountryName.TabIndex = 10;
-            // 
             // LblPopulation
             // 
             this.LblPopulation.AutoSize = true;
-            this.LblPopulation.Location = new System.Drawing.Point(707, 35);
+            this.LblPopulation.Location = new System.Drawing.Point(642, 8);
             this.LblPopulation.Name = "LblPopulation";
             this.LblPopulation.Size = new System.Drawing.Size(0, 13);
             this.LblPopulation.TabIndex = 14;
@@ -153,7 +126,7 @@
             // LblPopulationLabel
             // 
             this.LblPopulationLabel.AutoSize = true;
-            this.LblPopulationLabel.Location = new System.Drawing.Point(649, 35);
+            this.LblPopulationLabel.Location = new System.Drawing.Point(584, 8);
             this.LblPopulationLabel.Name = "LblPopulationLabel";
             this.LblPopulationLabel.Size = new System.Drawing.Size(60, 13);
             this.LblPopulationLabel.TabIndex = 13;
@@ -162,7 +135,7 @@
             // LblTotalCases
             // 
             this.LblTotalCases.AutoSize = true;
-            this.LblTotalCases.Location = new System.Drawing.Point(707, 55);
+            this.LblTotalCases.Location = new System.Drawing.Point(642, 28);
             this.LblTotalCases.Name = "LblTotalCases";
             this.LblTotalCases.Size = new System.Drawing.Size(0, 13);
             this.LblTotalCases.TabIndex = 16;
@@ -170,7 +143,7 @@
             // LblTotalCasesLabel
             // 
             this.LblTotalCasesLabel.AutoSize = true;
-            this.LblTotalCasesLabel.Location = new System.Drawing.Point(643, 55);
+            this.LblTotalCasesLabel.Location = new System.Drawing.Point(578, 28);
             this.LblTotalCasesLabel.Name = "LblTotalCasesLabel";
             this.LblTotalCasesLabel.Size = new System.Drawing.Size(66, 13);
             this.LblTotalCasesLabel.TabIndex = 15;
@@ -179,7 +152,7 @@
             // LblTotalDeaths
             // 
             this.LblTotalDeaths.AutoSize = true;
-            this.LblTotalDeaths.Location = new System.Drawing.Point(708, 77);
+            this.LblTotalDeaths.Location = new System.Drawing.Point(643, 50);
             this.LblTotalDeaths.Name = "LblTotalDeaths";
             this.LblTotalDeaths.Size = new System.Drawing.Size(0, 13);
             this.LblTotalDeaths.TabIndex = 18;
@@ -187,7 +160,7 @@
             // LblTotalDeathsLabel
             // 
             this.LblTotalDeathsLabel.AutoSize = true;
-            this.LblTotalDeathsLabel.Location = new System.Drawing.Point(640, 77);
+            this.LblTotalDeathsLabel.Location = new System.Drawing.Point(575, 50);
             this.LblTotalDeathsLabel.Name = "LblTotalDeathsLabel";
             this.LblTotalDeathsLabel.Size = new System.Drawing.Size(71, 13);
             this.LblTotalDeathsLabel.TabIndex = 17;
@@ -199,22 +172,39 @@
             this.ChtChart.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.ChtChart.Legends.Add(legend1);
-            this.ChtChart.Location = new System.Drawing.Point(93, 440);
+            this.ChtChart.Location = new System.Drawing.Point(12, 255);
             this.ChtChart.Name = "ChtChart";
             this.ChtChart.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.ChtChart.Series.Add(series1);
-            this.ChtChart.Size = new System.Drawing.Size(900, 285);
+            this.ChtChart.Size = new System.Drawing.Size(981, 470);
             this.ChtChart.TabIndex = 19;
+            // 
+            // BtnAddToChart
+            // 
+            this.BtnAddToChart.Location = new System.Drawing.Point(453, 5);
+            this.BtnAddToChart.Name = "BtnAddToChart";
+            this.BtnAddToChart.Size = new System.Drawing.Size(84, 23);
+            this.BtnAddToChart.TabIndex = 20;
+            this.BtnAddToChart.Text = "Add To Chart";
+            this.BtnAddToChart.UseVisualStyleBackColor = true;
+            this.BtnAddToChart.Click += new System.EventHandler(this.BtnAddToChart_Click);
+            // 
+            // BtnResetChart
+            // 
+            this.BtnResetChart.Location = new System.Drawing.Point(453, 34);
+            this.BtnResetChart.Name = "BtnResetChart";
+            this.BtnResetChart.Size = new System.Drawing.Size(84, 23);
+            this.BtnResetChart.TabIndex = 21;
+            this.BtnResetChart.Text = "Reset Chart";
+            this.BtnResetChart.UseVisualStyleBackColor = true;
+            this.BtnResetChart.Click += new System.EventHandler(this.BtnResetChart_Click);
             // 
             // FormCOVID
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1005, 737);
+            this.Controls.Add(this.BtnResetChart);
+            this.Controls.Add(this.BtnAddToChart);
             this.Controls.Add(this.ChtChart);
             this.Controls.Add(this.LblTotalDeaths);
             this.Controls.Add(this.LblTotalDeathsLabel);
@@ -222,14 +212,12 @@
             this.Controls.Add(this.LblTotalCasesLabel);
             this.Controls.Add(this.LblPopulation);
             this.Controls.Add(this.LblPopulationLabel);
-            this.Controls.Add(this.LblCountryName);
-            this.Controls.Add(this.LblCountryLabel);
             this.Controls.Add(this.DgvCountryRecords);
             this.Controls.Add(this.CboCountries);
             this.Controls.Add(this.ClbCountries);
-            this.Controls.Add(this.BtnLoad);
             this.Name = "FormCOVID";
             this.Text = "COVID19 Analysis";
+            this.Load += new System.EventHandler(this.FormCOVID_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChtChart)).EndInit();
             this.ResumeLayout(false);
@@ -238,12 +226,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button BtnLoad;
         private System.Windows.Forms.CheckedListBox ClbCountries;
         private System.Windows.Forms.ComboBox CboCountries;
         private System.Windows.Forms.DataGridView DgvCountryRecords;
-        private System.Windows.Forms.Label LblCountryLabel;
-        private System.Windows.Forms.Label LblCountryName;
         private System.Windows.Forms.Label LblPopulation;
         private System.Windows.Forms.Label LblPopulationLabel;
         private System.Windows.Forms.Label LblTotalCases;
@@ -256,6 +241,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalCases;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalDeaths;
         private System.Windows.Forms.DataVisualization.Charting.Chart ChtChart;
+        private System.Windows.Forms.Button BtnAddToChart;
+        private System.Windows.Forms.Button BtnResetChart;
     }
 }
 
