@@ -45,8 +45,9 @@
             this.LblTotalDeaths = new System.Windows.Forms.Label();
             this.LblTotalDeathsLabel = new System.Windows.Forms.Label();
             this.ChtChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.BtnAddToChart = new System.Windows.Forms.Button();
+            this.BtnChartAddRemove = new System.Windows.Forms.Button();
             this.BtnResetChart = new System.Windows.Forms.Button();
+            this.CboChartType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChtChart)).BeginInit();
             this.SuspendLayout();
@@ -178,33 +179,80 @@
             this.ChtChart.Size = new System.Drawing.Size(981, 470);
             this.ChtChart.TabIndex = 19;
             // 
-            // BtnAddToChart
+            // BtnChartAddRemove
             // 
-            this.BtnAddToChart.Location = new System.Drawing.Point(453, 5);
-            this.BtnAddToChart.Name = "BtnAddToChart";
-            this.BtnAddToChart.Size = new System.Drawing.Size(84, 23);
-            this.BtnAddToChart.TabIndex = 20;
-            this.BtnAddToChart.Text = "Add To Chart";
-            this.BtnAddToChart.UseVisualStyleBackColor = true;
-            this.BtnAddToChart.Click += new System.EventHandler(this.BtnAddToChart_Click);
+            this.BtnChartAddRemove.Location = new System.Drawing.Point(453, 5);
+            this.BtnChartAddRemove.Name = "BtnChartAddRemove";
+            this.BtnChartAddRemove.Size = new System.Drawing.Size(119, 23);
+            this.BtnChartAddRemove.TabIndex = 20;
+            this.BtnChartAddRemove.Text = "Chart Add/Remove";
+            this.BtnChartAddRemove.UseVisualStyleBackColor = true;
+            this.BtnChartAddRemove.Click += new System.EventHandler(this.BtnChartAddRemove_Click);
             // 
             // BtnResetChart
             // 
             this.BtnResetChart.Location = new System.Drawing.Point(453, 34);
             this.BtnResetChart.Name = "BtnResetChart";
-            this.BtnResetChart.Size = new System.Drawing.Size(84, 23);
+            this.BtnResetChart.Size = new System.Drawing.Size(119, 23);
             this.BtnResetChart.TabIndex = 21;
             this.BtnResetChart.Text = "Reset Chart";
             this.BtnResetChart.UseVisualStyleBackColor = true;
             this.BtnResetChart.Click += new System.EventHandler(this.BtnResetChart_Click);
+            // 
+            // CboChartType
+            // 
+            this.CboChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboChartType.FormattingEnabled = true;
+            this.CboChartType.Items.AddRange(new object[] {
+            "Point",
+            "FastPoint",
+            "Bubble",
+            "Line",
+            "Spline",
+            "StepLine",
+            "FastLine",
+            "Bar",
+            "StackedBar",
+            "StackedBar100",
+            "Column",
+            "StackedColumn",
+            "StackedColumn100",
+            "Area",
+            "SplineArea",
+            "StackedArea",
+            "StackedArea100",
+            "Pie",
+            "Doughnut",
+            "Stock",
+            "Candlestick",
+            "Range",
+            "SplineRange",
+            "RangeBar",
+            "RangeColumn",
+            "Radar",
+            "Polar",
+            "ErrorBar",
+            "BoxPlot",
+            "Renko",
+            "ThreeLineBreak",
+            "Kagi",
+            "PointAndFigure",
+            "Funnel",
+            "Pyramid"});
+            this.CboChartType.Location = new System.Drawing.Point(232, 36);
+            this.CboChartType.Name = "CboChartType";
+            this.CboChartType.Size = new System.Drawing.Size(214, 21);
+            this.CboChartType.TabIndex = 22;
+            this.CboChartType.SelectedIndexChanged += new System.EventHandler(this.CboChartType_SelectedIndexChanged);
             // 
             // FormCOVID
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1005, 737);
+            this.Controls.Add(this.CboChartType);
             this.Controls.Add(this.BtnResetChart);
-            this.Controls.Add(this.BtnAddToChart);
+            this.Controls.Add(this.BtnChartAddRemove);
             this.Controls.Add(this.ChtChart);
             this.Controls.Add(this.LblTotalDeaths);
             this.Controls.Add(this.LblTotalDeathsLabel);
@@ -241,8 +289,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalCases;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalDeaths;
         private System.Windows.Forms.DataVisualization.Charting.Chart ChtChart;
-        private System.Windows.Forms.Button BtnAddToChart;
+        private System.Windows.Forms.Button BtnChartAddRemove;
         private System.Windows.Forms.Button BtnResetChart;
+        private System.Windows.Forms.ComboBox CboChartType;
     }
 }
 

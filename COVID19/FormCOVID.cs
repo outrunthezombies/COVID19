@@ -13,6 +13,7 @@ namespace COVID19
         public FormCOVID()
         {
             InitializeComponent();
+            CboChartType.SelectedIndex = 3;
         }
         private readonly string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
         private string CovidJSONRawData = "";
@@ -163,7 +164,7 @@ namespace COVID19
             else
             {
                 ChtChart.Series.Add(countries[countryIndex].Name);
-                ChtChart.Series[countries[countryIndex].Name].ChartType = SeriesChartType.Line;
+                ChtChart.Series[countries[countryIndex].Name].ChartType = (SeriesChartType)CboChartType.SelectedIndex;
                 int totalCases = 0;
                 for (int index = countries[countryIndex].CountryRecords.Count - 1; index >= 0; index--)
                 {
@@ -191,7 +192,7 @@ namespace COVID19
             }
             this.Cursor = Cursors.Default;
         }
-        private void BtnAddToChart_Click(object sender, EventArgs e)
+        private void BtnChartAddRemove_Click(object sender, EventArgs e)
         {
             if (CboCountries.SelectedIndex >= 0)
             {
@@ -209,6 +210,13 @@ namespace COVID19
         private void ClbCountries_ItemCheck(object sender, EventArgs e)
         {
             AddRemoveChartSeries(ClbCountries.SelectedIndex);
+        }
+        private void CboChartType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (Series series in ChtChart.Series)
+            {
+                series.ChartType = (SeriesChartType)CboChartType.SelectedIndex;
+            }
         }
     }
 }
