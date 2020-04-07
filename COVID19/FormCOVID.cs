@@ -13,7 +13,8 @@ namespace COVID19
         public FormCOVID()
         {
             InitializeComponent();
-            CboChartType.SelectedIndex = 0;
+            CboChartType.SelectedIndex = 0;                                                                      ;
+            CboChartDataSet.SelectedIndex = 0;
         }
         private readonly string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
         private string CovidJSONRawData = "";
@@ -21,7 +22,18 @@ namespace COVID19
         private List<Country> countries = new List<Country>();
         private readonly char underscore = '_';
         private readonly char space = ' ';
-        private int[] ChartType = { 0, 3, 10};
+        private int[] ChartType = { 3, 1, 10};
+        private enum ChartData
+        {
+            TotalCasesPerMillionPeople = 0,
+            DailyCasesPerMillionPeople = 1,
+            TotalDeathsPerMillionPeople = 2,
+            DailyDeathsPerMillionPeople = 3,
+            TotalCasesByDay = 4,
+            DailyCases = 5,
+            TotalDeathsByDay = 6,
+            DailyDeaths = 7
+        }
         private void LoadJSON ()
         {
             this.Cursor = Cursors.WaitCursor;
@@ -125,6 +137,7 @@ namespace COVID19
             LblPopulation.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].Population.ToString()));
             LblTotalCases.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].TotalCases().ToString()));
             LblTotalDeaths.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].TotalDeaths().ToString()));
+            LblDeathRate.Text = string.Format("{0:#0.0%}", (double)countries[countryIndex].TotalDeaths() / (double)countries[countryIndex].TotalCases());
             DgvCountryRecords.Rows.Clear();
             foreach (CountryRecord record in countries[countryIndex].CountryRecords)
             {
@@ -167,11 +180,42 @@ namespace COVID19
                 ChtChart.Series.Add(countries[countryIndex].Name);
                 ChtChart.Series[countries[countryIndex].Name].ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
                 int totalCases = 0;
+                int totalDeaths = 0;
+                long population = countries[countryIndex].Population;
                 for (int index = countries[countryIndex].CountryRecords.Count - 1; index >= 0; index--)
                 {
                     totalCases += countries[countryIndex].CountryRecords[index].Cases;
-                    dp = new DataPoint();
-                    dp.SetValueXY(countries[countryIndex].CountryRecords[index].Date, (double)totalCases / ((double)countries[countryIndex].Population / 1000000));
+                    totalDeaths += countries[countryIndex].CountryRecords[index].Deaths;
+                    double yAxisData = 0.0;
+                    switch ((ChartData)CboChartDataSet.SelectedIndex)
+                    {
+                        case ChartData.TotalCasesPerMillionPeople:
+                            yAxisData = (double)totalCases / ((double)population / 1000000);
+                            break;
+                        case ChartData.DailyCasesPerMillionPeople:
+                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Cases / ((double)population / 1000000);
+                            break;
+                        case ChartData.TotalDeathsPerMillionPeople:
+                            yAxisData = (double)totalDeaths / ((double)population / 1000000);
+                            break;
+                        case ChartData.DailyDeathsPerMillionPeople:
+                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Deaths / ((double)population / 1000000);
+                            break;
+                        case ChartData.TotalCasesByDay:
+                            yAxisData = (double)totalCases;
+                            break;
+                        case ChartData.DailyCases:
+                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Cases;
+                            break;
+                        case ChartData.TotalDeathsByDay:
+                            yAxisData = (double)totalDeaths;
+                            break;
+                        case ChartData.DailyDeaths:
+                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Deaths;
+                            break;
+                }
+                dp = new DataPoint();
+                    dp.SetValueXY(countries[countryIndex].CountryRecords[index].Date, yAxisData);
                     ChtChart.Series[countries[countryIndex].Name].Points.Add(dp);
                     ChtChart.ChartAreas[0].AxisX.IsReversed = false;
                 }
@@ -210,6 +254,7 @@ namespace COVID19
         }
         private void ClbCountries_ItemCheck(object sender, EventArgs e)
         {
+            CboCountries.SelectedIndex = ClbCountries.SelectedIndex;
             AddRemoveChartSeries(ClbCountries.SelectedIndex);
         }
         private void CboChartType_SelectedIndexChanged(object sender, EventArgs e)
@@ -217,6 +262,15 @@ namespace COVID19
             foreach (Series series in ChtChart.Series)
             {
                 series.ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
+            }
+        }
+        private void CboChartDataSet_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChtChart.Series.Clear();
+            for (int index = 0; index < ClbCountries.Items.Count; index++)
+            {
+                if (ClbCountries.GetItemChecked(index))
+                    AddRemoveChartSeries(index);
             }
         }
     }

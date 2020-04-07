@@ -48,6 +48,9 @@
             this.BtnChartAddRemove = new System.Windows.Forms.Button();
             this.BtnResetChart = new System.Windows.Forms.Button();
             this.CboChartType = new System.Windows.Forms.ComboBox();
+            this.CboChartDataSet = new System.Windows.Forms.ComboBox();
+            this.LblDeathRate = new System.Windows.Forms.Label();
+            this.LblDeathRateLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChtChart)).BeginInit();
             this.SuspendLayout();
@@ -119,7 +122,7 @@
             // LblPopulation
             // 
             this.LblPopulation.AutoSize = true;
-            this.LblPopulation.Location = new System.Drawing.Point(642, 8);
+            this.LblPopulation.Location = new System.Drawing.Point(820, 8);
             this.LblPopulation.Name = "LblPopulation";
             this.LblPopulation.Size = new System.Drawing.Size(0, 13);
             this.LblPopulation.TabIndex = 14;
@@ -127,7 +130,7 @@
             // LblPopulationLabel
             // 
             this.LblPopulationLabel.AutoSize = true;
-            this.LblPopulationLabel.Location = new System.Drawing.Point(584, 8);
+            this.LblPopulationLabel.Location = new System.Drawing.Point(762, 8);
             this.LblPopulationLabel.Name = "LblPopulationLabel";
             this.LblPopulationLabel.Size = new System.Drawing.Size(60, 13);
             this.LblPopulationLabel.TabIndex = 13;
@@ -136,7 +139,7 @@
             // LblTotalCases
             // 
             this.LblTotalCases.AutoSize = true;
-            this.LblTotalCases.Location = new System.Drawing.Point(642, 28);
+            this.LblTotalCases.Location = new System.Drawing.Point(820, 28);
             this.LblTotalCases.Name = "LblTotalCases";
             this.LblTotalCases.Size = new System.Drawing.Size(0, 13);
             this.LblTotalCases.TabIndex = 16;
@@ -144,7 +147,7 @@
             // LblTotalCasesLabel
             // 
             this.LblTotalCasesLabel.AutoSize = true;
-            this.LblTotalCasesLabel.Location = new System.Drawing.Point(578, 28);
+            this.LblTotalCasesLabel.Location = new System.Drawing.Point(756, 28);
             this.LblTotalCasesLabel.Name = "LblTotalCasesLabel";
             this.LblTotalCasesLabel.Size = new System.Drawing.Size(66, 13);
             this.LblTotalCasesLabel.TabIndex = 15;
@@ -153,7 +156,7 @@
             // LblTotalDeaths
             // 
             this.LblTotalDeaths.AutoSize = true;
-            this.LblTotalDeaths.Location = new System.Drawing.Point(643, 50);
+            this.LblTotalDeaths.Location = new System.Drawing.Point(821, 50);
             this.LblTotalDeaths.Name = "LblTotalDeaths";
             this.LblTotalDeaths.Size = new System.Drawing.Size(0, 13);
             this.LblTotalDeaths.TabIndex = 18;
@@ -161,7 +164,7 @@
             // LblTotalDeathsLabel
             // 
             this.LblTotalDeathsLabel.AutoSize = true;
-            this.LblTotalDeathsLabel.Location = new System.Drawing.Point(575, 50);
+            this.LblTotalDeathsLabel.Location = new System.Drawing.Point(753, 50);
             this.LblTotalDeathsLabel.Name = "LblTotalDeathsLabel";
             this.LblTotalDeathsLabel.Size = new System.Drawing.Size(71, 13);
             this.LblTotalDeathsLabel.TabIndex = 17;
@@ -191,7 +194,7 @@
             // 
             // BtnResetChart
             // 
-            this.BtnResetChart.Location = new System.Drawing.Point(453, 34);
+            this.BtnResetChart.Location = new System.Drawing.Point(578, 5);
             this.BtnResetChart.Name = "BtnResetChart";
             this.BtnResetChart.Size = new System.Drawing.Size(119, 23);
             this.BtnResetChart.TabIndex = 21;
@@ -204,8 +207,8 @@
             this.CboChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CboChartType.FormattingEnabled = true;
             this.CboChartType.Items.AddRange(new object[] {
-            "Point",
             "Line",
+            "Point",
             "Column"});
             this.CboChartType.Location = new System.Drawing.Point(232, 36);
             this.CboChartType.Name = "CboChartType";
@@ -213,11 +216,50 @@
             this.CboChartType.TabIndex = 22;
             this.CboChartType.SelectedIndexChanged += new System.EventHandler(this.CboChartType_SelectedIndexChanged);
             // 
+            // CboChartDataSet
+            // 
+            this.CboChartDataSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CboChartDataSet.FormattingEnabled = true;
+            this.CboChartDataSet.Items.AddRange(new object[] {
+            "Total Cases per Million People",
+            "Daily Cases per Million People",
+            "Total Deaths per Million People",
+            "Daily Deaths per Million People",
+            "Total Cases By Day",
+            "Daily Cases",
+            "Total Deaths By Day",
+            "Daily Deaths"});
+            this.CboChartDataSet.Location = new System.Drawing.Point(453, 36);
+            this.CboChartDataSet.Name = "CboChartDataSet";
+            this.CboChartDataSet.Size = new System.Drawing.Size(244, 21);
+            this.CboChartDataSet.TabIndex = 23;
+            this.CboChartDataSet.SelectedIndexChanged += new System.EventHandler(this.CboChartDataSet_SelectedIndexChanged);
+            // 
+            // LblDeathRate
+            // 
+            this.LblDeathRate.AutoSize = true;
+            this.LblDeathRate.Location = new System.Drawing.Point(949, 50);
+            this.LblDeathRate.Name = "LblDeathRate";
+            this.LblDeathRate.Size = new System.Drawing.Size(0, 13);
+            this.LblDeathRate.TabIndex = 25;
+            // 
+            // LblDeathRateLabel
+            // 
+            this.LblDeathRateLabel.AutoSize = true;
+            this.LblDeathRateLabel.Location = new System.Drawing.Point(881, 50);
+            this.LblDeathRateLabel.Name = "LblDeathRateLabel";
+            this.LblDeathRateLabel.Size = new System.Drawing.Size(65, 13);
+            this.LblDeathRateLabel.TabIndex = 24;
+            this.LblDeathRateLabel.Text = "Death Rate:";
+            // 
             // FormCOVID
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1005, 737);
+            this.Controls.Add(this.LblDeathRate);
+            this.Controls.Add(this.LblDeathRateLabel);
+            this.Controls.Add(this.CboChartDataSet);
             this.Controls.Add(this.CboChartType);
             this.Controls.Add(this.BtnResetChart);
             this.Controls.Add(this.BtnChartAddRemove);
@@ -260,6 +302,9 @@
         private System.Windows.Forms.Button BtnChartAddRemove;
         private System.Windows.Forms.Button BtnResetChart;
         private System.Windows.Forms.ComboBox CboChartType;
+        private System.Windows.Forms.ComboBox CboChartDataSet;
+        private System.Windows.Forms.Label LblDeathRate;
+        private System.Windows.Forms.Label LblDeathRateLabel;
     }
 }
 
