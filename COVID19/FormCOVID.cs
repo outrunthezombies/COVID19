@@ -22,7 +22,7 @@ namespace COVID19
         private List<Country> countries = new List<Country>();
         private readonly char underscore = '_';
         private readonly char space = ' ';
-        private int[] ChartType = { 3, 1, 10};
+        private readonly int[] ChartType = { 3, 1, 10};
         private enum ChartData
         {
             TotalCasesPerMillionPeople = 0,
@@ -179,6 +179,7 @@ namespace COVID19
             {
                 ChtChart.Series.Add(countries[countryIndex].Name);
                 ChtChart.Series[countries[countryIndex].Name].ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
+
                 int totalCases = 0;
                 int totalDeaths = 0;
                 long population = countries[countryIndex].Population;
@@ -213,12 +214,16 @@ namespace COVID19
                         case ChartData.DailyDeaths:
                             yAxisData = (double)countries[countryIndex].CountryRecords[index].Deaths;
                             break;
-                }
-                dp = new DataPoint();
+                    }
+                    dp = new DataPoint();
                     dp.SetValueXY(countries[countryIndex].CountryRecords[index].Date, yAxisData);
                     ChtChart.Series[countries[countryIndex].Name].Points.Add(dp);
+                    ChtChart.Series[countries[countryIndex].Name].IsVisibleInLegend = false;
                     ChtChart.ChartAreas[0].AxisX.IsReversed = false;
+                    ChtChart.ChartAreas[0].AxisX.Title = "Date";
+                    ChtChart.ChartAreas[0].AxisY.Title = "Amount";
                 }
+                ChtChart.Series[countries[countryIndex].Name].Points[ChtChart.Series[countries[countryIndex].Name].Points.Count-1].Label = countries[countryIndex].Name;
                 ClbCountries.SetItemChecked(countryIndex, true);
             }
         }
