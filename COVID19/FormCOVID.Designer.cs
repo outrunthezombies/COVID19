@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCOVID));
             this.ClbCountries = new System.Windows.Forms.CheckedListBox();
             this.CboCountries = new System.Windows.Forms.ComboBox();
             this.DgvCountryRecords = new System.Windows.Forms.DataGridView();
@@ -273,6 +274,7 @@
             this.Controls.Add(this.DgvCountryRecords);
             this.Controls.Add(this.CboCountries);
             this.Controls.Add(this.ClbCountries);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormCOVID";
             this.Text = "COVID19 Analysis";
             this.Load += new System.EventHandler(this.FormCOVID_Load);

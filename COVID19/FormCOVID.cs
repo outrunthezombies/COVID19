@@ -252,6 +252,8 @@ namespace COVID19
         private void BtnResetChart_Click(object sender, EventArgs e)
         {
             ChtChart.Series.Clear();
+            for (int index=0; index<ClbCountries.Items.Count; index++)
+                ClbCountries.SetItemChecked(index, false);
         }
         private void CboCountries_SelectedIndexChanged(object sender, EventArgs e)
         {
