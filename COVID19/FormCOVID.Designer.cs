@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCOVID));
             this.ClbCountries = new System.Windows.Forms.CheckedListBox();
             this.CboCountries = new System.Windows.Forms.ComboBox();
@@ -182,6 +183,8 @@
             this.ChtChart.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.ChtChart.Size = new System.Drawing.Size(981, 470);
             this.ChtChart.TabIndex = 19;
+            title1.Name = "Title1";
+            this.ChtChart.Titles.Add(title1);
             // 
             // BtnChartAddRemove
             // 
@@ -207,10 +210,6 @@
             // 
             this.CboChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CboChartType.FormattingEnabled = true;
-            this.CboChartType.Items.AddRange(new object[] {
-            "Line",
-            "Point",
-            "Column"});
             this.CboChartType.Location = new System.Drawing.Point(232, 36);
             this.CboChartType.Name = "CboChartType";
             this.CboChartType.Size = new System.Drawing.Size(214, 21);

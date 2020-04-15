@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-
 namespace COVID19
 {
     public partial class FormCOVID : Form
@@ -13,16 +12,18 @@ namespace COVID19
         public FormCOVID()
         {
             InitializeComponent();
-            CboChartType.SelectedIndex = 0;                                                                      ;
             CboChartDataSet.SelectedIndex = 0;
+            CboChartType.Items.AddRange(chartTypes);
+            CboChartType.SelectedIndex = 0; ;
         }
+        private readonly int[] ChartType = { 13, 7, 28, 2, 20, 10, 18, 27, 6, 1, 33, 31, 3, 17, 0, 32, 26, 34, 25, 21, 23, 24, 29, 4, 14, 22, 15, 16, 8, 9, 11, 12, 5, 19, 30 };
+        private readonly string[] chartTypes = new string[] { "Area", "Bar", "BoxPlot", "Bubble", "Candlestick", "Column", "Doughnut", "ErrorBar", "FastLine", "FastPoint", "Funnel", "Kagi", "Line", "Pie", "Point", "PointAndFigure", "Polar", "Pyramid", "Radar", "Range", "RangeBar", "RangeColumn", "Renko", "Spline", "SplineArea", "SplineRange", "StackedArea", "StackedArea100", "StackedBar", "StackedBar100", "StackedColumn", "StackedColumn100", "StepLine", "Stock", "ThreeLineBreak" };
         private readonly string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
         private string CovidJSONRawData = "";
         private List<CountryRecord> countryRecords = new List<CountryRecord>();
         private List<Country> countries = new List<Country>();
         private readonly char underscore = '_';
         private readonly char space = ' ';
-        private readonly int[] ChartType = { 3, 1, 10};
         private enum ChartData
         {
             TotalCasesPerMillionPeople = 0,
@@ -169,61 +170,86 @@ namespace COVID19
         }
         private void AddRemoveChartSeries(int countryIndex)
         {
+            string countryName = countries[countryIndex].Name;
             DataPoint dp;
             if (IsCountrySelected(countryIndex))
             {
-                ChtChart.Series.Remove(ChtChart.Series[countries[countryIndex].Name]);
+                ChtChart.Series.Remove(ChtChart.Series[countryName]);
                 ClbCountries.SetItemChecked(countryIndex, false);
             }
             else
             {
-                ChtChart.Series.Add(countries[countryIndex].Name);
-                ChtChart.Series[countries[countryIndex].Name].ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
+                ChtChart.Series.Add(countryName);
+                ChtChart.Series[countryName].ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
+                switch (ChtChart.Series[countryName].ChartType)
+                {
+                    case SeriesChartType.Line:
+                        ChtChart.Series[countryName].IsVisibleInLegend = false;
+                        break;
+                    default:
+                        ChtChart.Series[countryName].IsVisibleInLegend = true;
+                        break;
+                }
 
                 int totalCases = 0;
                 int totalDeaths = 0;
                 long population = countries[countryIndex].Population;
                 for (int index = countries[countryIndex].CountryRecords.Count - 1; index >= 0; index--)
                 {
-                    totalCases += countries[countryIndex].CountryRecords[index].Cases;
-                    totalDeaths += countries[countryIndex].CountryRecords[index].Deaths;
+                    int cases = countries[countryIndex].CountryRecords[index].Cases;
+                    int deaths = countries[countryIndex].CountryRecords[index].Deaths;
+                    string date = countries[countryIndex].CountryRecords[index].Date;
+                    totalCases += cases;
+                    totalDeaths += deaths;
                     double yAxisData = 0.0;
+                    string dataLabel = "";
                     switch ((ChartData)CboChartDataSet.SelectedIndex)
                     {
                         case ChartData.TotalCasesPerMillionPeople:
                             yAxisData = (double)totalCases / ((double)population / 1000000);
+                            dataLabel = "Total Cases Per Million";
                             break;
                         case ChartData.DailyCasesPerMillionPeople:
-                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Cases / ((double)population / 1000000);
+                            yAxisData = (double)cases / ((double)population / 1000000);
+                            dataLabel = "Daily Cases Per Million";
                             break;
                         case ChartData.TotalDeathsPerMillionPeople:
                             yAxisData = (double)totalDeaths / ((double)population / 1000000);
+                            dataLabel = "Total Deaths Per Million";
                             break;
                         case ChartData.DailyDeathsPerMillionPeople:
-                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Deaths / ((double)population / 1000000);
+                            yAxisData = (double)deaths / ((double)population / 1000000);
+                            dataLabel = "Daily Deaths Per Million";
                             break;
                         case ChartData.TotalCasesByDay:
+                            dataLabel = "Total Cases By Day";
                             yAxisData = (double)totalCases;
                             break;
                         case ChartData.DailyCases:
-                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Cases;
+                            dataLabel = "Daily Cases";
+                            yAxisData = (double)cases;
                             break;
                         case ChartData.TotalDeathsByDay:
                             yAxisData = (double)totalDeaths;
+                            dataLabel = "Total Deaths Per By Day";
                             break;
                         case ChartData.DailyDeaths:
-                            yAxisData = (double)countries[countryIndex].CountryRecords[index].Deaths;
+                            yAxisData = (double)deaths;
+                            dataLabel = "Daily Deaths";
                             break;
                     }
+                    ChtChart.Titles[0].Text = dataLabel;
+                    dataLabel += ": " + string.Format("{0:#,0.#}", yAxisData);
                     dp = new DataPoint();
-                    dp.SetValueXY(countries[countryIndex].CountryRecords[index].Date, yAxisData);
-                    ChtChart.Series[countries[countryIndex].Name].Points.Add(dp);
-                    ChtChart.Series[countries[countryIndex].Name].IsVisibleInLegend = false;
+                    dp.SetValueXY(date, yAxisData);
+                    dp.ToolTip = "Date: " + date + Environment.NewLine + dataLabel;
+                    ChtChart.Series[countryName].ToolTip = "#VALX, #VAL";
+                    ChtChart.Series[countryName].Points.Add(dp);
                     ChtChart.ChartAreas[0].AxisX.IsReversed = false;
                     ChtChart.ChartAreas[0].AxisX.Title = "Date";
                     ChtChart.ChartAreas[0].AxisY.Title = "Amount";
                 }
-                ChtChart.Series[countries[countryIndex].Name].Points[ChtChart.Series[countries[countryIndex].Name].Points.Count-1].Label = countries[countryIndex].Name;
+                ChtChart.Series[countryName].Points[ChtChart.Series[countryName].Points.Count-1].Label = countryName;
                 ClbCountries.SetItemChecked(countryIndex, true);
             }
         }
@@ -269,6 +295,15 @@ namespace COVID19
             foreach (Series series in ChtChart.Series)
             {
                 series.ChartType = (SeriesChartType)ChartType[CboChartType.SelectedIndex];
+                switch (series.ChartType)
+                {
+                    case SeriesChartType.Line:
+                        series.IsVisibleInLegend = false;
+                        break;
+                    default:
+                        series.IsVisibleInLegend = true;
+                        break;
+                }
             }
         }
         private void CboChartDataSet_SelectedIndexChanged(object sender, EventArgs e)
