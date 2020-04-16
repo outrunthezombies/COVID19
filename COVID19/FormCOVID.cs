@@ -19,13 +19,13 @@ namespace COVID19
         }
         private void GetCountryData(int countryIndex)
         { 
-            int totalCases = 0;
-            int totalDeaths = 0;
+            int totalCases = countries[countryIndex].TotalCases();
+            int totalDeaths = countries[countryIndex].TotalDeaths();
 
             LblPopulation.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].Population.ToString()));
-            LblTotalCases.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].TotalCases().ToString()));
-            LblTotalDeaths.Text = string.Format("{0:#,##0}", double.Parse(countries[countryIndex].TotalDeaths().ToString()));
-            LblDeathRate.Text = string.Format("{0:#0.0%}", (double)countries[countryIndex].TotalDeaths() / (double)countries[countryIndex].TotalCases());
+            LblTotalCases.Text = string.Format("{0:#,##0}", double.Parse(totalCases.ToString()));
+            LblTotalDeaths.Text = string.Format("{0:#,##0}", double.Parse(totalDeaths.ToString()));
+            LblDeathRate.Text = string.Format("{0:#0.0%}", (double)totalDeaths / (double)totalCases);
             DgvCountryRecords.Rows.Clear();
             foreach (CountryRecord record in countries[countryIndex].CountryRecords)
             {
@@ -33,16 +33,11 @@ namespace COVID19
                 dgvr.Cells[0].Value = record.Year + "/" + record.Month + "/" + record.Day;
                 dgvr.Cells[1].Value = record.Cases;
                 dgvr.Cells[2].Value = record.Deaths;
-                dgvr.Cells[3].Value = "";
-                dgvr.Cells[4].Value = "";
+                dgvr.Cells[3].Value = totalCases;
+                dgvr.Cells[4].Value = totalDeaths;
+                totalCases -= record.Cases;
+                totalDeaths -= record.Deaths;
                 DgvCountryRecords.Rows.Add(dgvr);
-            }
-            for (int index = DgvCountryRecords.Rows.Count-2; index >= 0 ; index--)
-            {
-                totalCases += (int)DgvCountryRecords.Rows[index].Cells[1].Value;
-                DgvCountryRecords.Rows[index].Cells[3].Value = totalCases;
-                totalDeaths += (int)DgvCountryRecords.Rows[index].Cells[2].Value;
-                DgvCountryRecords.Rows[index].Cells[4].Value = totalDeaths;
             }
         }
         private bool IsCountrySelected(int countryIndex)

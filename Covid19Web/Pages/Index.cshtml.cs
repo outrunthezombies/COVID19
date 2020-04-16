@@ -19,7 +19,7 @@ namespace Covid19Web.Pages
 
         public void OnGet()
         {
-
+            
         }
     }
 }
