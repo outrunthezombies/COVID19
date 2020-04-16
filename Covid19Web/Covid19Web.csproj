@@ -10,4 +10,12 @@
     <Compile Include="..\COVID19\SharedCode.cs" Link="SharedCode.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\COVID19\COVID19.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -27,13 +27,13 @@ public static class SharedCode
     }
     public static void LoadAndParseJSONIntoObjects()
     {
-        JObject json = JObject.Parse(CovidJSONRawData);
-        List<JToken> data = json.Children().ToList();
-
         using (WebClient webClient = new WebClient())
         {
             CovidJSONRawData = webClient.DownloadString(CovidJSONURL);
         }
+
+        JObject json = JObject.Parse(CovidJSONRawData);
+        List<JToken> data = json.Children().ToList();
  
         foreach (JProperty item in data)
         {
