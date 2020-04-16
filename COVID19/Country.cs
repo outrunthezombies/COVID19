@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace COVID19
 {
-    class Country
+    public class Country
     {
         private string countryCode, countryName, geoId;
         public string CountryCode

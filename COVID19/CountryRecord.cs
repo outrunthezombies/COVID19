@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace COVID19
 {
-    class CountryRecord
+    public class CountryRecord
     {
         /*
             dateRep	"03/04/2020"                    --> Date

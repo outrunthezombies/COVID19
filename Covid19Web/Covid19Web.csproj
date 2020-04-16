@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\COVID19\Country.cs" Link="Country.cs" />
+    <Compile Include="..\COVID19\CountryRecord.cs" Link="CountryRecord.cs" />
+    <Compile Include="..\COVID19\SharedCode.cs" Link="SharedCode.cs" />
+  </ItemGroup>
+
+</Project>
