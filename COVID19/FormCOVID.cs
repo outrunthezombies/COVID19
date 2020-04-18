@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using static SharedCode;
@@ -30,11 +26,13 @@ namespace COVID19
             foreach (CountryRecord record in countries[countryIndex].CountryRecords)
             {
                 DataGridViewRow dgvr = (DataGridViewRow)DgvCountryRecords.Rows[0].Clone();
-                dgvr.Cells[0].Value = record.Year + "/" + record.Month + "/" + record.Day;
+                dgvr.Cells[0].Value = record.Date;
                 dgvr.Cells[1].Value = record.Cases;
                 dgvr.Cells[2].Value = record.Deaths;
-                dgvr.Cells[3].Value = totalCases;
-                dgvr.Cells[4].Value = totalDeaths;
+                dgvr.Cells[3].Value = string.Format("{0:#0.0%}", (double)record.Deaths / (double)record.Cases);
+                dgvr.Cells[4].Value = totalCases;
+                dgvr.Cells[5].Value = totalDeaths;
+                dgvr.Cells[6].Value = string.Format("{0:#0.0%}", (double)totalDeaths / (double)totalCases);
                 totalCases -= record.Cases;
                 totalDeaths -= record.Deaths;
                 DgvCountryRecords.Rows.Add(dgvr);

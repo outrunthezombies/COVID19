@@ -6,8 +6,8 @@ using System.Net;
 
 public static class SharedCode
 {
-    public readonly static int[] ChartType = { 13, 7, 28, 2, 20, 10, 18, 27, 6, 1, 33, 31, 3, 17, 0, 32, 26, 34, 25, 21, 23, 24, 29, 4, 14, 22, 15, 16, 8, 9, 11, 12, 5, 19, 30 };
-    public readonly static string[] chartTypes = new string[] { "Area", "Bar", "BoxPlot", "Bubble", "Candlestick", "Column", "Doughnut", "ErrorBar", "FastLine", "FastPoint", "Funnel", "Kagi", "Line", "Pie", "Point", "PointAndFigure", "Polar", "Pyramid", "Radar", "Range", "RangeBar", "RangeColumn", "Renko", "Spline", "SplineArea", "SplineRange", "StackedArea", "StackedArea100", "StackedBar", "StackedBar100", "StackedColumn", "StackedColumn100", "StepLine", "Stock", "ThreeLineBreak" };
+    public readonly static int[] ChartType = { 10, 3, 13, 7, 28, 2, 20, 18, 27, 6, 1, 33, 31, 17, 0, 32, 26, 34, 25, 21, 23, 24, 29, 4, 14, 22, 15, 16, 8, 9, 11, 12, 5, 19, 30 };
+    public readonly static string[] chartTypes = new string[] { "Column", "Line", "Area", "Bar", "BoxPlot", "Bubble", "Candlestick", "Doughnut", "ErrorBar", "FastLine", "FastPoint", "Funnel", "Kagi", "Pie", "Point", "PointAndFigure", "Polar", "Pyramid", "Radar", "Range", "RangeBar", "RangeColumn", "Renko", "Spline", "SplineArea", "SplineRange", "StackedArea", "StackedArea100", "StackedBar", "StackedBar100", "StackedColumn", "StackedColumn100", "StepLine", "Stock", "ThreeLineBreak" };
     public readonly static string CovidJSONURL = "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/";
     public static string CovidJSONRawData = null;
     public readonly static char underscore = '_';

@@ -6,30 +6,40 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <form method="get">
-    <select asp-items="Model.Countries" id="id" name="id"></select>
+    Choose another country: <select asp-items="Model.Countries" id="id" name="id"></select>
     <input type="submit" name="submit" value="Submit" />
 </form>
+<br />
 @if (Model.SelectedCountry != null)
 {
     <table border="1">
         <tr>
-            <td colspan="2">@Model.SelectedCountryName</td>
-            <td>@Model.PopulationLabel</td>
-            <td>@Model.TotalCasesLabel</td>
-            <td>@Model.TotalDeathsLabel</td>
-            <td>@Model.DeathRateLabel</td>
+            <td colspan="3">Country:</td>
+            <td>Population</td>
+            <td>Total Cases</td>
+            <td>Total Deaths</td>
+            <td>Total Death Rate</td>
         </tr>
-        <tr align="center"><td>Date</td><td>Daily Cases</td><td>Daily Deaths</td><td>Total Cases</td><td>Total Deaths</td><td>Percentage</td></tr>
+        <tr>
+            <td colspan="3">@Model.SelectedCountryName</td>
+            <td align="right">@Model.PopulationLabel</td>
+            <td align="right">@Model.TotalCasesLabel</td>
+            <td align="right">@Model.TotalDeathsLabel</td>
+            <td align="right">@Model.DeathRateLabel</td>
+        </tr>
+        <tr><td colspan="7"><br /></td></tr>
+        <tr align="center"><td>Date</td><td>Daily Cases</td><td>Daily Deaths</td><td>Percentage</td><td>Total Cases</td><td>Total Deaths</td><td>Percentage</td></tr>
 
         @foreach (COVID19.CountryRecord record in Model.SelectedCountry.CountryRecords)
         {
-            <tr align="right">
+            <tr>
                 <td>@record.Date</td>
-                <td>@Model.FormatNumber(record.Cases)</td>
-                <td>@Model.FormatNumber(record.Deaths)</td>
-                <td>@Model.TotalCasesLabel</td>
-                <td>@Model.TotalDeathsLabel</td>
-                <td>@Model.DeathRateLabel</td>
+                <td align="right">@Model.FormatNumber(record.Cases)</td>
+                <td align="right">@Model.FormatNumber(record.Deaths)</td>
+                <td align="right">@Model.FormatPercentage(record.Deaths, record.Cases)</td>
+                <td align="right">@Model.TotalCasesLabel</td>
+                <td align="right">@Model.TotalDeathsLabel</td>
+                <td align="right">@Model.DeathRateLabel</td>
             </tr>
             Model.TotalCases -= record.Cases;
             Model.TotalDeaths -= record.Deaths;

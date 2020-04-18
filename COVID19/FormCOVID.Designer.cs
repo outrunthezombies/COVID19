@@ -35,11 +35,6 @@
             this.ClbCountries = new System.Windows.Forms.CheckedListBox();
             this.CboCountries = new System.Windows.Forms.ComboBox();
             this.DgvCountryRecords = new System.Windows.Forms.DataGridView();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DailyCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DailyDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LblPopulation = new System.Windows.Forms.Label();
             this.LblPopulationLabel = new System.Windows.Forms.Label();
             this.LblTotalCases = new System.Windows.Forms.Label();
@@ -53,6 +48,13 @@
             this.CboChartDataSet = new System.Windows.Forms.ComboBox();
             this.LblDeathRate = new System.Windows.Forms.Label();
             this.LblDeathRateLabel = new System.Windows.Forms.Label();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DailyCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DailyDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DailyDeathRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalCases = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalDeaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalDeathRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCountryRecords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ChtChart)).BeginInit();
             this.SuspendLayout();
@@ -84,42 +86,14 @@
             this.Date,
             this.DailyCases,
             this.DailyDeaths,
+            this.DailyDeathRate,
             this.TotalCases,
-            this.TotalDeaths});
+            this.TotalDeaths,
+            this.TotalDeathRate});
             this.DgvCountryRecords.Location = new System.Drawing.Point(232, 71);
             this.DgvCountryRecords.Name = "DgvCountryRecords";
-            this.DgvCountryRecords.Size = new System.Drawing.Size(761, 178);
+            this.DgvCountryRecords.Size = new System.Drawing.Size(807, 178);
             this.DgvCountryRecords.TabIndex = 8;
-            // 
-            // Date
-            // 
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
-            // 
-            // DailyCases
-            // 
-            this.DailyCases.HeaderText = "Daily Cases";
-            this.DailyCases.Name = "DailyCases";
-            this.DailyCases.ReadOnly = true;
-            // 
-            // DailyDeaths
-            // 
-            this.DailyDeaths.HeaderText = "Daily Deaths";
-            this.DailyDeaths.Name = "DailyDeaths";
-            this.DailyDeaths.ReadOnly = true;
-            // 
-            // TotalCases
-            // 
-            this.TotalCases.HeaderText = "Total Cases";
-            this.TotalCases.Name = "TotalCases";
-            this.TotalCases.ReadOnly = true;
-            // 
-            // TotalDeaths
-            // 
-            this.TotalDeaths.HeaderText = "Total Deaths";
-            this.TotalDeaths.Name = "TotalDeaths";
-            this.TotalDeaths.ReadOnly = true;
             // 
             // LblPopulation
             // 
@@ -181,7 +155,7 @@
             this.ChtChart.Location = new System.Drawing.Point(12, 255);
             this.ChtChart.Name = "ChtChart";
             this.ChtChart.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.ChtChart.Size = new System.Drawing.Size(981, 470);
+            this.ChtChart.Size = new System.Drawing.Size(1027, 470);
             this.ChtChart.TabIndex = 19;
             title1.Name = "Title1";
             this.ChtChart.Titles.Add(title1);
@@ -252,11 +226,54 @@
             this.LblDeathRateLabel.TabIndex = 24;
             this.LblDeathRateLabel.Text = "Death Rate:";
             // 
+            // Date
+            // 
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            // 
+            // DailyCases
+            // 
+            this.DailyCases.HeaderText = "Daily Cases";
+            this.DailyCases.Name = "DailyCases";
+            this.DailyCases.ReadOnly = true;
+            // 
+            // DailyDeaths
+            // 
+            this.DailyDeaths.HeaderText = "Daily Deaths";
+            this.DailyDeaths.Name = "DailyDeaths";
+            this.DailyDeaths.ReadOnly = true;
+            // 
+            // DailyDeathRate
+            // 
+            this.DailyDeathRate.HeaderText = "DailyDeathRate";
+            this.DailyDeathRate.Name = "DailyDeathRate";
+            this.DailyDeathRate.ReadOnly = true;
+            // 
+            // TotalCases
+            // 
+            this.TotalCases.HeaderText = "Total Cases";
+            this.TotalCases.Name = "TotalCases";
+            this.TotalCases.ReadOnly = true;
+            // 
+            // TotalDeaths
+            // 
+            this.TotalDeaths.HeaderText = "Total Deaths";
+            this.TotalDeaths.Name = "TotalDeaths";
+            this.TotalDeaths.ReadOnly = true;
+            // 
+            // TotalDeathRate
+            // 
+            this.TotalDeathRate.HeaderText = "Total Death Rate";
+            this.TotalDeathRate.Name = "TotalDeathRate";
+            this.TotalDeathRate.ReadOnly = true;
+            this.TotalDeathRate.Width = 120;
+            // 
             // FormCOVID
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1005, 737);
+            this.ClientSize = new System.Drawing.Size(1051, 737);
             this.Controls.Add(this.LblDeathRate);
             this.Controls.Add(this.LblDeathRateLabel);
             this.Controls.Add(this.CboChartDataSet);
@@ -294,11 +311,6 @@
         private System.Windows.Forms.Label LblTotalCasesLabel;
         private System.Windows.Forms.Label LblTotalDeaths;
         private System.Windows.Forms.Label LblTotalDeathsLabel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DailyCases;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DailyDeaths;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalCases;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalDeaths;
         private System.Windows.Forms.DataVisualization.Charting.Chart ChtChart;
         private System.Windows.Forms.Button BtnChartAddRemove;
         private System.Windows.Forms.Button BtnResetChart;
@@ -306,6 +318,13 @@
         private System.Windows.Forms.ComboBox CboChartDataSet;
         private System.Windows.Forms.Label LblDeathRate;
         private System.Windows.Forms.Label LblDeathRateLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DailyCases;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DailyDeaths;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DailyDeathRate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalCases;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalDeaths;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalDeathRate;
     }
 }
 
