@@ -1,64 +1,38 @@
 ﻿@page
 @model IndexModel
+@(ViewData["Title"] = "Home page")
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-@{ 
-    Output.Write("<form method=get>");
-    Output.Write("<select name=country id=country>");
-    Output.Write("<option>--- Select a Country ---</option>");
+<form method="get">
+    <select asp-items="Model.Countries" id="id" name="id"></select>
+    <input type="submit" name="submit" value="Submit" />
+</form>
+@if (Model.SelectedCountry != null)
+{
+    <table border="1">
+        <tr>
+            <td colspan="2">@Model.SelectedCountryName</td>
+            <td>@Model.PopulationLabel</td>
+            <td>@Model.TotalCasesLabel</td>
+            <td>@Model.TotalDeathsLabel</td>
+            <td>@Model.DeathRateLabel</td>
+        </tr>
+        <tr align="center"><td>Date</td><td>Daily Cases</td><td>Daily Deaths</td><td>Total Cases</td><td>Total Deaths</td><td>Percentage</td></tr>
 
-    int countryIndex = -1;
-
-    string selectedCountryName = Request.Query["country"];
-    ViewData["Title"] = "Home page";
-    SharedCode.LoadAndParseJSONIntoObjects();
-    for (int index = 0; index < SharedCode.countries.Count; index++)
-    {
-        if (SharedCode.countries[index].Name.Equals(selectedCountryName))
+        @foreach (COVID19.CountryRecord record in Model.SelectedCountry.CountryRecords)
         {
-            Output.Write("<option selected>");
-            countryIndex = index;
+            <tr align="right">
+                <td>@record.Date</td>
+                <td>@Model.FormatNumber(record.Cases)</td>
+                <td>@Model.FormatNumber(record.Deaths)</td>
+                <td>@Model.TotalCasesLabel</td>
+                <td>@Model.TotalDeathsLabel</td>
+                <td>@Model.DeathRateLabel</td>
+            </tr>
+            Model.TotalCases -= record.Cases;
+            Model.TotalDeaths -= record.Deaths;
         }
-        else
-            Output.Write("<option>");
-        Output.Write(SharedCode.countries[index].Name + "</option>");
-    }
-
-    Output.Write("</select><input id=submit type=submit value=Submit></input>");
-    Output.Write("</form>");
-
-    if (countryIndex >= 0)
-    {
-        int totalCases = SharedCode.countries[countryIndex].TotalCases();
-        int totalDeaths = SharedCode.countries[countryIndex].TotalDeaths();
-        string populationLabel = string.Format("{0:#,##0}", double.Parse(SharedCode.countries[countryIndex].Population.ToString()));
-        string totalCasesLabel = string.Format("{0:#,##0}", double.Parse(totalCases.ToString()));
-        string totalDeathsLabel = string.Format("{0:#,##0}", double.Parse(totalDeaths.ToString()));
-        string deathRateLabel = string.Format("{0:#0.0%}", (double)SharedCode.countries[countryIndex].TotalDeaths() / (double)SharedCode.countries[countryIndex].TotalCases());
-
-        Output.Write("<table border=1>");
-        Output.Write("<tr align=right>");
-        Output.Write("<td>" + SharedCode.countries[countryIndex].Name + "</td>");
-        Output.Write("<td>" + populationLabel + "</td>");
-        Output.Write("<td>" + totalCasesLabel + "</td>");
-        Output.Write("<td>" + totalDeathsLabel + "</td>");
-        Output.Write("<td>" + deathRateLabel + "</td></tr>");
-        Output.Write("<tr align=center><td>Date</td><td>Daily Cases</td><td>Daily Deaths</td><td>Total Cases</td><td>Total Deaths</td></tr>");
-
-        foreach (COVID19.CountryRecord record in SharedCode.countries[countryIndex].CountryRecords)
-        {
-            Output.Write("<tr align=right>");
-            Output.Write("<td>" + record.Year + "/" + record.Month + "/" + record.Day + "</td>");
-            Output.Write("<td align=\"left\">" + string.Format("{0:#,##0}", record.Cases.ToString()) + "</td>");
-            Output.Write("<td>" + string.Format("{0:#,##0}", record.Deaths.ToString()) + "</td>");
-            Output.Write("<td>" + string.Format("{0:#,##0}", totalCases.ToString()) + "</td>");
-            Output.Write("<td>" + string.Format("{0:#,##0}", totalDeaths.ToString()) + "</td>");
-            Output.Write("</tr>");
-            totalCases -= (int)record.Cases;
-            totalDeaths -= record.Deaths;
-        }
-        Output.Write("</table>");
-    }
+    </table>
 }
