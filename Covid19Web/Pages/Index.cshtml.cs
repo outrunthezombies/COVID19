@@ -39,5 +39,9 @@ namespace Covid19Web.Pages
                 PopulationLabel = string.Format("{0:#,##0}", SelectedCountry.Population);
             }
         }
+        public void BuildChart()
+        {
+            
+        }
     }
 }
