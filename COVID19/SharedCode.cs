@@ -25,20 +25,24 @@ public static class SharedCode
         TotalDeathsByDay = 6,
         DailyDeaths = 7
     }
-    public static void LoadAndParseJSONIntoObjects()
+    public static void LoadJSONDataFromECDC()
     {
-        if (string.IsNullOrEmpty(CovidJSONRawData))
-        { 
-            using (WebClient webClient = new WebClient())
-            {
-                CovidJSONRawData = webClient.DownloadString(CovidJSONURL);
-            }
-        }
-        JObject json = JObject.Parse(CovidJSONRawData);
-        List<JToken> data = json.Children().ToList();
+        countries.Clear();
+        countryRecords.Clear();
 
-        if (countries.Count == 0)
+        using (WebClient webClient = new WebClient())
         {
+            webClient.OpenRead(CovidJSONURL);
+            CovidJSONRawData = webClient.DownloadString(CovidJSONURL);
+        }
+    }
+    public static void ParseJSONIntoObjects()
+    {
+        if (CovidJSONRawData != null)
+        {
+            JObject json = JObject.Parse(CovidJSONRawData);
+            List<JToken> data = json.Children().ToList();
+
             foreach (JProperty item in data)
             {
                 item.CreateReader();
@@ -85,9 +89,12 @@ public static class SharedCode
                                     case "geoId":
                                         geoId = value.Value.ToString();
                                         break;
-                                    case "popData2018":
-                                        if (value.Value.ToString() != "")
-                                            population = (long)value.Value;
+                                    default:
+                                        if (value.Name.Substring(0, 7).Equals("popData"))
+                                        {
+                                            if (!value.Value.ToString().Equals(""))
+                                                population = (long)value.Value;
+                                        }
                                         break;
                                 }
                             }

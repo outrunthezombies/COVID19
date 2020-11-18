@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using static SharedCode;
@@ -136,10 +137,21 @@ namespace COVID19
         private void FormCOVID_Load(object sender, EventArgs e)
         {
             this.Show();
+            ReloadData();
+        }
+        private void BtnReloadECDCData_Click(object sender, EventArgs e)
+        {
+            LoadJSONDataFromECDC();
+            ReloadData();
+        }
+        private void ReloadData()
+        {
             this.Cursor = Cursors.WaitCursor;
-            LoadAndParseJSONIntoObjects();
             ClbCountries.Items.Clear();
             CboCountries.Items.Clear();
+            DgvCountryRecords.Rows.Clear();
+            ChtChart.Series.Clear();
+            ParseJSONIntoObjects();
             foreach (Country record in countries)
             {
                 ClbCountries.Items.Add(record.Name);
@@ -194,5 +206,23 @@ namespace COVID19
                     AddRemoveChartSeries(index);
             }
         }
-    }
+
+        private void BtnLoadDataFromFile_Click(object sender, EventArgs e)
+        {
+            LoadJSONDataFromFile();
+            ReloadData();
+        }
+
+        private void LoadJSONDataFromFile()
+        {
+            OpenFileDialog JSONDataFile = new OpenFileDialog();
+            JSONDataFile.ShowDialog();
+            string JSONDataFileLocation = JSONDataFile.FileName;
+
+            if (File.Exists(JSONDataFileLocation))
+            {
+                CovidJSONRawData = File.ReadAllText(JSONDataFileLocation);
+            }
+        }
+}
 }
